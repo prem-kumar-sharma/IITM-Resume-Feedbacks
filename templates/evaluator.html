@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        input[type="file"] {
+            display: block;
+            margin: 20px auto;
+            font-size: 1rem;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            width: 80%;
+        }
+        button {
+            display: block;
+            width: 50%;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px auto;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .feedback {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-left: 5px solid #007BFF;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            text-align: left;
+            white-space: pre-wrap;
+        }
+        /* Loading overlay */
+        .loading-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            text-align: center;
+            color: white;
+            font-size: 2rem;
+            padding-top: 100px;
+        }
+        .loading-overlay.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resume Feedback System</h1>
+        <form id="uploadForm">
+            <input type="file" id="resumeFile" accept=".pdf">
+            <button type="button" onclick="uploadResume()">Upload Resume</button>
+        </form>
+        <div class="feedback" id="feedbackSection">
+            <p id="feedback"></p>
+        </div>
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            Evaluating your resume, please wait...
+        </div>
+    </div>
+
+    <script>
+        function uploadResume() {
+            const fileInput = document.getElementById('resumeFile');
+            const file = fileInput.files[0];
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const feedbackSection = document.getElementById('feedbackSection');
+
+            if (!file) {
+                alert('Please upload a resume');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Show the loading overlay
+            loadingOverlay.classList.add('active');
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide the loading overlay
+                loadingOverlay.classList.remove('active');
+
+                // Display feedback
+                document.getElementById('feedback').innerText = data.feedback;
+            })
+            .catch(error => {
+                // Hide the loading overlay
+                loadingOverlay.classList.remove('active');
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

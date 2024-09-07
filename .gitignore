@@ -1,0 +1,43 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+
+# Virtual environments
+venv/
+*.venv/
+ENV/
+env.bak/
+*.env.bak/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# MacOS
+.DS_Store
+
+# Logs and output
+*.log
+
+# PyTest cache
+.pytest_cache/
+
+# Ignore IDE/Editor related files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Ignore coverage report files
+htmlcov/
+.coverage
+.coverage.*
+
+# Ignore Chroma DB files
+chroma_store/
+
+# Ignore pytest-related cache
+.cache/
